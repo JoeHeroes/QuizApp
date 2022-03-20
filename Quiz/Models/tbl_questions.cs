@@ -21,5 +21,8 @@ namespace Quiz.Models
         public string QC { get; set; }
         public string QD { get; set; }
         public string QCorrectAns { get; set; }
+        public Nullable<int> q_fk_catid { get; set; }
+    
+        public virtual tbl_category tbl_category { get; set; }
     }
 }

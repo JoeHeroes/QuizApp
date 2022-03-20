@@ -11,28 +11,19 @@ namespace Quiz.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class student
     {
         public student()
         {
             this.tbl_setExam = new HashSet<tbl_setExam>();
         }
-
+    
         public int std_id { get; set; }
-        [Display(Name = "Student Name")]
-        [Required(ErrorMessage = "*")]
         public string std_name { get; set; }
-        [Display(Name = "Password")]
-        [Required(ErrorMessage = "*")]
         public string std_password { get; set; }
-
-        [Display(Name = "Image")]
-        [Required(ErrorMessage = "*")]
         public string std_image { get; set; }
-
-
+    
         public virtual ICollection<tbl_setExam> tbl_setExam { get; set; }
     }
 }

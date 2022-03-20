@@ -11,18 +11,22 @@ namespace Quiz.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class tbl_admin
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class tbl_category
     {
-        public tbl_admin()
+        public tbl_category()
         {
-            this.tbl_category = new HashSet<tbl_category>();
+            this.tbl_questions = new HashSet<tbl_questions>();
         }
     
-        public int ad_id { get; set; }
-        public string ad_name { get; set; }
-        public string ad_pass { get; set; }
+        public int cat_id { get; set; }
+        [Display(Name ="Subject")]
+        [Required(ErrorMessage ="*")]
+        public string cat_name { get; set; }
+        public Nullable<int> cat_fk_ad_id { get; set; }
     
-        public virtual ICollection<tbl_category> tbl_category { get; set; }
+        public virtual tbl_admin tbl_admin { get; set; }
+        public virtual ICollection<tbl_questions> tbl_questions { get; set; }
     }
 }
