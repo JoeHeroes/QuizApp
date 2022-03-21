@@ -221,6 +221,7 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
     <Content Include="Views\Home\Add_Category.cshtml" />
+    <Content Include="Views\Home\Add_Questions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

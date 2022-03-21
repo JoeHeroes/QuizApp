@@ -12,8 +12,25 @@ namespace Quiz.Controllers
 
         QuizAppEntities db = new QuizAppEntities();
 
+        [HttpGet]
         public ActionResult tlogin()
         {
+           
+            return View();
+        } 
+        [HttpPost]
+        public ActionResult tlogin(tbl_admin ad)
+        {
+            tbl_admin a = db.tbl_admin.Where(x => x.ad_name==ad.ad_name && x.ad_pass==ad.ad_pass).SingleOrDefault();
+            if (a != null)
+            {
+                Session["ad_id"] = ad.ad_id;
+                return RedirectToAction("Dashboard");
+            }
+            else
+            {
+                ViewBag.msg = "Incalid User Name or Password";
+            }
             return View();
         }
         public ActionResult slogin()
@@ -29,7 +46,7 @@ namespace Quiz.Controllers
         [HttpGet]
         public ActionResult Add_Category()
         {
-            Session["ad_id"] = 2;
+            //Session["ad_id"] = 2;
             List<tbl_category> catLi = db.tbl_category.OrderByDescending(x => x.cat_id).ToList();
             ViewData["list"] = catLi;
             return View();
@@ -39,9 +56,7 @@ namespace Quiz.Controllers
         [HttpPost]
         public ActionResult Add_Category(tbl_category cat)
         {
-            Session["ad_id"] = 1;
-            int ad_id = Convert.ToInt32(Session["ad_id"].ToString());
-            List<tbl_category> catLi = db.tbl_category.Where(x=>x.cat_fk_ad_id==ad_id ).OrderByDescending(x => x.cat_id).ToList();
+            List<tbl_category> catLi = db.tbl_category.OrderByDescending(x => x.cat_id).ToList();
             ViewData["list"] = catLi;
 
             tbl_category c = new tbl_category();
@@ -52,9 +67,42 @@ namespace Quiz.Controllers
             db.tbl_category.Add(c);
             db.SaveChanges();
             return RedirectToAction("Add_Category");
+            return View();
         }
 
+        [HttpGet]
+        public ActionResult Add_Questions()
+        {
+            int sid = Convert.ToInt32(Session["ad_id"]);
+            List<tbl_category> li = db.tbl_category.Where(x => x.cat_id == sid).ToList();
+            ViewBag.list = new SelectList(li,"cat_id","cat_name");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Add_Questions(tbl_questions q)
+        {
+            int sid = Convert.ToInt32(Session["ad_id"]);
+            List<tbl_category> li = db.tbl_category.Where(x => x.cat_id == sid).ToList();
+            ViewBag.list = new SelectList(li,"cat_id","cat_name");
 
+            tbl_questions qa = new tbl_questions();
+            qa.q_text = q.q_text;
+            qa.QA = q.QA;
+            qa.QB = q.QB;
+            qa.QC = q.QC;
+            qa.QD = q.QD;
+            qa.QCorrectAns = q.QCorrectAns;
+
+
+            qa.q_fk_catid = q.q_fk_catid;
+
+
+            db.tbl_questions.Add(qa);
+            db.SaveChanges();
+            ViewBag.ms = "Question sucessfully Added";
+            
+            return View();
+        }
         public ActionResult Index()
         {
             return View();

@@ -13,9 +13,14 @@
         <div class="col-lg-2-md-2 col-sm-2 col-xs-2 btn-btn-sucess" style="height:900px;border:1px solid gray;background-color:dimgray">
 
             <div class="list-group">
-                <a href="a" class="list-group-item">Report</a>
-                <a href="a" class="list-group-item">Add a New Category</a>
-                <a href="a" class="list-group-item">Add Questions</a>
+                <div class="list-group-item">  @Html.ActionLink("Add_Category", "Add_Category", new { @class = "list-group-item" })</div>
+                <div class="list-group-item">  @Html.ActionLink("Add_Questions", "Add_Questions", new { @class = "list-group-item" })</div>
+                <div class="list-group-item">  @Html.ActionLink("Reports", "Dashboard", new { @class = "list-group-item" })</div>
+               
+
+                
+                
+             
             </div>
         </div>
         <div class="col-lg-10-md-10 col-sm-10 col-xs-10" style="height:900px;border:1px solid gray">

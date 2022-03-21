@@ -25,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ad_pass, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ad_pass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.PasswordFor(model => model.ad_pass, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ad_pass, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
 }
-
+<p style="color:red">ViewBag.msg</p>
 <div>
    
 </div>
