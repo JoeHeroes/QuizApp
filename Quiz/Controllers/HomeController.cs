@@ -57,8 +57,8 @@ namespace Quiz.Controllers
         public ActionResult Add_Category(tbl_category cat)
         {
             Session["ad_id"] = 1;
-            int ad_id = Convert.ToInt32(Session["ad_id"].ToString());
-            List<tbl_category> catLi = db.tbl_category.Where(x => x.cat_fk_ad_id == ad_id).OrderByDescending(x => x.cat_id).ToList();
+
+            List<tbl_category> catLi = db.tbl_category.OrderByDescending(x => x.cat_id).ToList();
             ViewData["list"] = catLi;
 
             tbl_category c = new tbl_category();
