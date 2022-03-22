@@ -23,11 +23,19 @@ namespace Quiz.Controllers
         public ActionResult sregister(student svm,HttpPostedFileBase imgfile)
         {
             student s = new student();
-            s.std_name = svm.std_name;
-            s.std_password = svm.std_password;
-            s.std_image = uploadImage(imgfile);
-            db.students.Add(s);
-            db.SaveChanges();
+            try
+            {
+                s.std_name = svm.std_name;
+                s.std_password = svm.std_password;
+                s.std_image = uploadImage(imgfile);
+                db.students.Add(s);
+                db.SaveChanges();
+                return RedirectToAction("slogin");
+            }
+            catch(Exception)
+            {
+                ViewBag.msg = "Data could not be inserted...";
+            }
 
             return View();
         }
@@ -74,7 +82,10 @@ namespace Quiz.Controllers
         {
            
             return View();
-        } 
+        }
+
+    
+
         [HttpPost]
         public ActionResult tlogin(tbl_admin ad)
         {
@@ -93,8 +104,28 @@ namespace Quiz.Controllers
         public ActionResult slogin()
         {
             return View();
+        } 
+        [HttpPost]
+        public ActionResult slogin(student s)
+        {
+            student sv = db.students.Where(x => x.std_name == s.std_name && x.std_password == s.std_password).SingleOrDefault();
+
+            if (sv == null)
+            {
+                ViewBag.msg = "Inval Email or Password";
+            }
+            else
+            {
+                return RedirectToAction("ExamDashboard");
+            }
+
+            return View();
         }
 
+        public ActionResult ExamDashboard()
+        {
+            return View();
+        }  
         public ActionResult Dashboard()
         {
             return View();
