@@ -1,0 +1,57 @@
+﻿@model Quiz.Models.student
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <title>sregister</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-8 col-sm-8">
+                <h2>Studnet Registeration</h2>
+                <div class="container" style="width:40%">
+                    @using (@Html.BeginForm())
+                    {
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            @*<input type="email" class="form-control" id="email" placeholder="Enter email" name="email">*@
+                            @Html.TextBoxFor(x => x.std_name, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                            @Html.PasswordFor(x => x.std_password, htmlAttributes: new { @class = "form-control" })
+
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Image:</label>
+                            @*<input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">*@
+                            <input type="file" class="form-control btn-info" id="imgfile" name="imgfile" />
+                        </div>
+                        @*<div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="remember">Register
+                            </label>
+                        </div>*@
+                        <input type="submit" value="Register Now!" class="btn btn-default btn-block">
+                    }
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-8">
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

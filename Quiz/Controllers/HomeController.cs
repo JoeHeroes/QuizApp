@@ -1,6 +1,7 @@
 ﻿using Quiz.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +12,62 @@ namespace Quiz.Controllers
     {
 
         QuizAppEntities db = new QuizAppEntities();
+
+       
+        [HttpGet]
+        public ActionResult sregister()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult sregister(student svm,HttpPostedFileBase imgfile)
+        {
+            student s = new student();
+            s.std_name = svm.std_name;
+            s.std_password = svm.std_password;
+            s.std_image = uploadImage(imgfile);
+            db.students.Add(s);
+            db.SaveChanges();
+
+            return View();
+        }
+
+
+        public string uploadImage(HttpPostedFileBase imgfile)
+        {
+            string path = "-1";
+            try
+            {
+                if (imgfile != null && imgfile.ContentLength > 0)
+                {
+                    string extension = Path.GetExtension(imgfile.FileName);
+                    if (extension.ToLower().Equals("jpg") || extension.ToLower().Equals("jpeg") || extension.ToLower().Equals("png"))
+                    {
+                        Random r = new Random();
+                        path = Path.Combine(Server.MapPath("~/Content/img"), r + Path.GetFileName(imgfile.FileName));
+                        imgfile.SaveAs(path);
+                        path = "~/Content/img" + r + Path.GetFileName(imgfile.FileName);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+
+            return path;
+        }
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            Session.RemoveAll();
+
+            return RedirectToAction("LogOut");
+        }
 
         [HttpGet]
         public ActionResult tlogin()
@@ -69,7 +126,7 @@ namespace Quiz.Controllers
             db.tbl_category.Add(c);
             db.SaveChanges();
             return RedirectToAction("Add_Category");
-            return View();
+            
         }
 
         [HttpGet]
@@ -87,14 +144,30 @@ namespace Quiz.Controllers
             List<tbl_category> li = db.tbl_category.Where(x => x.cat_id == sid).ToList();
             ViewBag.list = new SelectList(li,"cat_id","cat_name");
 
-            db.tbl_questions.Add(q);
+            tbl_questions qa = new tbl_questions();
+            qa.q_text = q.q_text;
+            qa.QA = q.QA;
+            qa.QB = q.QB;
+            qa.QC = q.QC;
+            qa.QD = q.QD;
+            qa.QCorrectAns = q.QCorrectAns;
+
+            qa.q_fk_catid = q.q_fk_catid;
+
+            db.tbl_questions.Add(qa);
             db.SaveChanges();
-            ViewBag.ms = "Question sucessfully Added";
-            
-            return View();
+            TempData["ms"] = "Question sucessfully Added";
+            TempData.Keep();
+
+            return RedirectToAction("Add_Questions");
+           
         }
         public ActionResult Index()
         {
+            if (Session["ad_id"] != null)
+            {
+                return RedirectToAction("Dashboard");
+            }
             return View();
         }
 

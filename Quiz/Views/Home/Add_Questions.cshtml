@@ -10,7 +10,7 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    <h1 style="color:green">@ViewBag.ms</h1>
+    <h1 style="color:green">@TempData["ms"]</h1>
 <div class="form-horizontal">
     
     <hr />
